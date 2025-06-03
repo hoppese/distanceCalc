@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CombinedParallax</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
+</head>
+<body>
+<p><span>Encounters with the Cosmos – Using Parallax to Measure Distance
+– Name:</span></p>
+<hr />
+<hr />
+<h1 id="background-on-stellar-parallax">Background on stellar
+parallax</h1>
+<p>Our primary way to measure the distance to nearby stars is through
+the use of <em>parallax</em> (an apparent change in position of an
+object due to the motion of an observer). As the Earth moves in its
+orbit throughout the year, our change in position causes a continuous
+change in perspective. The diagram below shows the Earth at four
+different positions in its orbit.</p>
+<div class="center">
+<p><img src="star_parallax_solution.png" style="width:100.0%"
+alt="image" /></p>
+</div>
+<p>Look at the three panels at the bottom of the figure and notice that
+the ‘nearby star’ appears to move relative to the background ‘distant
+stars’. By measuring the amount that the nearby star moves throughout
+the year, we can measure its distance <span
+class="math inline">\(d\)</span> from the Earth.</p>
+<p>Note that this figure drastically exaggerates the closeness of both
+the nearby and distant stars. In reality, the Earth – Sun distance (1
+AU) is extraordinarily small relative to <span
+class="math inline">\(d\)</span>. When studying real stars, <span
+class="math inline">\(d\)</span> ranges from a few light years up to a
+few hundred light years. Meanwhile, the distant stars are at least
+thousands of light years away, effectively stationary.</p>
+<p>Your goal in this lab is to measure the distance to use a nearby
+‘star’. Your star (a flag) will be placed in a large open field. You
+will then take photos of it from different positions. In the photos you
+take, the flag will shift relative to the background stars (the distant
+trees far across the field). Before you can head out and start snapping
+photos, you need to determine the field of view of your camera.</p>
+<h1 id="sec:FOV">Calibrating your camera</h1>
+<h2 class="unnumbered" id="what-is-field-of-view">What is field of
+view?</h2>
+<p>When you take a photograph, the amount of the subject you capture is
+determined by two things: 1) the distance between the camera and the
+subject and 2) the <em>field of view</em> (FOV) of your camera. FOV is
+defined by the angle that the camera sees both left-right, and also
+up-down. As such, it is measured in <em>square degrees</em> (see the
+dashed region in the figure below). When you want to make an image
+larger you either 1) get closer to the subject or 2) <em>decrease</em>
+the FOV which is done by <em>zooming</em> in.</p>
+<div class="center">
+<p><img src="camera3D.jpg" alt="image" /></p>
+</div>
+<h2 class="unnumbered" id="determining-your-field-of-view">Determining
+your field of view</h2>
+<p>Your task, then, is to measure the FOV of our camera. In our case, we
+are only interested in side-to-side motion, so you only need to know the
+the horizontal FOV. This quantity is represented by the angle <span
+class="math inline">\(\theta\)</span> in the figure below.</p>
+<div class="center">
+<p><img src="camera2D.jpg" alt="image" /></p>
+</div>
+<p>Find <span class="math inline">\(\theta\)</span> with the following
+steps:</p>
+<ol>
+<li><p>Stand back from a wall and face it straight on. In landscape
+(horizontal) mode, take a photograph using a low zoom factor. For most
+modern cell phones, about 1x zoom should work great.<br />
+</p></li>
+<li><p>Record the zoom value of your photo (remember, zooming changes
+the FOV) here: <span class="math display">\[{\rm Zoom =
+\hspace{2cm}}\]</span></p></li>
+<li><p>Measure the distance <span class="math inline">\(d\)</span> from
+the camera to the wall. Record it here: <span class="math display">\[d =
+\hspace{1.25cm}\]</span></p></li>
+<li><p>Look at the picture you took and use it to find the edges of the
+region on the wall that you photographed. Measure this length <span
+class="math inline">\(l\)</span> and record it here: <span
+class="math display">\[l = \hspace{1.25cm}\]</span></p></li>
+<li><p>With <span class="math inline">\(d\)</span> and <span
+class="math inline">\(l\)</span> we now have enough information to
+compute the horizontal FOV <span class="math inline">\(\theta\)</span>,
+as follows:<br />
+</p>
+<div class="minipage">
+<p>The triangle to the right represents half of the horizontal FOV of
+our camera. Since it is a right triangle, we can use basic trigonometry
+to relate <span class="math inline">\(\theta\)</span> to <span
+class="math inline">\(d\)</span> and <span
+class="math inline">\(l\)</span>. The tangent of an angle equals
+‘opposite over adjacent’ so <span class="math display">\[\tan (\theta/2)
+= \frac{l/2}{d} = \frac{l}{2d}.\]</span> Solve for <span
+class="math inline">\(\theta\)</span> by using the <span
+class="math inline">\(\tan^{-1}\)</span> function. <span
+class="math display">\[\theta/2 = \tan^{-1} \left( \frac{l}{2d}  \right)
+\qquad \Longrightarrow \qquad
+\theta = 2\tan^{-1} \left( \frac{l}{2d}  \right)\]</span> Using this
+formula, find your value of <span class="math inline">\(\theta\)</span>.
+(Make sure your calculator is set to degrees!) Record your <span
+class="math inline">\(\theta\)</span> here: <span
+class="math display">\[\hspace{3.7cm} \theta =\]</span></p>
+</div>
+<div class="minipage">
+<div class="center">
+<p><img src="triangle.jpg" alt="image" /></p>
+</div>
+</div></li>
+</ol>
+<p>You are now ready to go outside and measure the distance to your
+star!</p>
+<h1 id="observations-of-stars">Observations of ‘stars’</h1>
+<h2 class="unnumbered" id="the-background-stars">The background
+‘stars’</h2>
+<p>You should now head out to a large field, with trees in the distance
+(several hundred feet away). For the purpose of this exercise, those
+trees will play the role of our background stars. You want them so far
+away that they barely move when you walk back and forth. Take a photo of
+those distant trees making sure your camera <strong>is set to the same
+zoom value you used while determining your FOV.</strong> Note the
+location where you took the photo. Call it Position A.</p>
+<div class="center">
+<p><img src="field_Open.jpg" alt="image" /></p>
+</div>
+<p>Now your teacher will place a ‘star’ (a cone) a distance <span
+class="math inline">\(d\)</span> (maybe 50 - 100 feet) in front of you.
+You will take photos of the cone from three different locations. As you
+change your position the background trees will appear to move. By
+carefully measuring “how much” they move we can measure the distance to
+the cone. Your teacher will use a tape measure to find the actual
+distance <span class="math inline">\(d\)</span> from Position A to the
+cone. Once you’ve made your parallax measurements, you can compare your
+inferred distance to what was directly measured.</p>
+<h2 class="unnumbered" id="the-view-from-position-a">The view from
+Position A</h2>
+<p>Standing at the same spot as the last photo (Position A), take a
+photo of the cone with the trees in the background.</p>
+<div class="center">
+<p><img src="field_A.jpg" alt="image" /></p>
+</div>
+<h2 class="unnumbered" id="the-view-from-position-b">The view from
+Position B</h2>
+<p>Move to your right a distance <span class="math inline">\(r\)</span>
+(no more than 5 meters). <em>Notice how the trees behind the cone appear
+to have changed.</em> Make note of your location and take another photo.
+Call this location Position B.</p>
+<div class="center">
+<p><img src="field_B.png" alt="image" /></p>
+</div>
+<p>The distance moved from side-to-side is called the <u>baseline</u>.
+Record the baseline distance (in feet) <span
+class="math inline">\(b_R\)</span> between Positions A and B here: <span
+class="math display">\[b_R = B - A = \hspace{1.25cm}\]</span></p>
+<h2 class="unnumbered" id="the-view-from-position-c">The view from
+Position C</h2>
+<p>Finally, move to the left of Position A to a new location. Call this
+Position C. Take a third photo of the cone. Again, the distant trees
+behind the cone should appear to have moved.</p>
+<div class="center">
+<p><img src="field_C.png" alt="image" /></p>
+</div>
+<p>Record the baseline distance (in feet) <span
+class="math inline">\(b_L\)</span> between Positions A and C here: <span
+class="math display">\[b_L = A - C = \hspace{1.25cm}\]</span></p>
+<h1 id="measuring-the-parallax-angle">Measuring the Parallax Angle</h1>
+<p>You will now figure out exactly how much the cone appeared to shift
+as you moved between Positions A, B and C.</p>
+<h2 class="unnumbered"
+id="preparing-your-view-of-the-background-stars">Preparing your view of
+the background stars</h2>
+<p>Print out the photo you took of the background trees (with no cone
+present). Ask your professor or TA if you need help printing. Your next
+step is to use a pen and ruler to mark out even degree spacings on this
+photo. Proceed as follows.</p>
+<ol>
+<li><p>What was the horizontal FOV, <span
+class="math inline">\(\theta\)</span>? You found it above in Sec. <a
+href="#sec:FOV" data-reference-type="ref"
+data-reference="sec:FOV">2</a>: <span class="math display">\[\theta =
+\hspace{1.15cm}\]</span></p></li>
+<li><p>Use a ruler to measure the width <span
+class="math inline">\(w\)</span> of your printed photo in centimeters.
+Record the value here: <span class="math display">\[w =
+\hspace{1.25cm}\]</span></p></li>
+<li><p>Compute the number of <strong>centimeters per degree</strong> by
+dividing: <span class="math display">\[\frac{w}{\theta} =
+\hspace{1.25cm}\]</span></p></li>
+<li><p>With this value, use a ruler to mark off even degree spacings on
+your photograph. An example of what at <span
+class="math inline">\(20^\circ\)</span> FOV would look like is shown
+below.</p></li>
+</ol>
+<div class="center">
+<p><img src="backgroundAngles.jpg" style="width:70.0%"
+alt="image" /></p>
+</div>
+<h2 class="unnumbered"
+id="the-location-of-our-star-from-different-positions">The location of
+our ‘star’ from different positions</h2>
+<p>Look at the photo you took of the cone from Position A. Note the
+cone’s location <strong>relative to the background trees</strong>.
+Compare its position to the prepared image from the previous section.
+What is the <em>angular location of the cone, as seen from Position
+A</em>? <span class="math display">\[\theta_A = \hspace{1.4cm}\]</span>
+Now, look a your photos from Positions B and C. Again, look at the trees
+behind the cone, compare to your image with marked degrees, and
+determine these positions of the cone: <span
+class="math display">\[\theta_B = \hspace{3.4cm}
+\theta_C =\]</span></p>
+<h2 class="unnumbered" id="the-parallax-angle">The parallax angle</h2>
+<p>We define the <strong>parallax angle</strong> as the angle by which
+the cone appears to move when you change locations. You took photos of
+your star from three positions. The first position (A) is the baseline.
+The angle <span class="math inline">\(p_R\)</span> (see the figure
+above) represents the amount by which the cone appeared to move when
+going to the <em><strong>right</strong></em> from A to B. Likewise,
+<span class="math inline">\(p_C\)</span> gives the amount the cone
+shifted when going to the <em><strong>left</strong></em> from A to C.
+Record your parallax angles here: <span class="math display">\[p_R
+=  \theta_A  - \theta_B =
+\qquad \qquad \qquad \qquad
+p_L = \theta_C - \theta_A =\]</span></p>
+<div class="center">
+<p><img src="parallaxAngles.png" style="width:80.0%" alt="image" /></p>
+</div>
+<h1 id="inferring-the-distance-to-your-star">Inferring the distance to
+your star</h1>
+<p>Before you actually compute the distance to your star from the
+parallax measurements, write down a guess for how far you think the star
+was <span class="math display">\[d_{\rm guess} =\]</span></p>
+<div class="center">
+<p><img src="parallaxAngles2.png" style="width:33.0%" alt="image" /></p>
+</div>
+<p>Finally, we have all the pieces in place to determine the distance to
+our star. Because we have measured two baseline distances and two
+parallax angles, we have two measurements of distance to the star: <span
+class="math display">\[d_L = \frac{b_L}{\tan p_L} =
+\qquad \qquad \qquad \qquad
+d_R = \frac{b_R}{\tan p_R} =\]</span> Are your two measurements the
+same? Are they close to the guess you made?</p>
+</body>
+</html>

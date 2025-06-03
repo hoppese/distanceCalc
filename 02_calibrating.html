@@ -1,0 +1,61 @@
+<html><head><meta charset="utf-8"/></head><body><h1 id="sec:FOV">Calibrating your camera</h1>
+<h2 class="unnumbered" id="what-is-field-of-view">What is field of
+view?</h2>
+<p>When you take a photograph, the amount of the subject you capture is
+determined by two things: 1) the distance between the camera and the
+subject and 2) the <em>field of view</em> (FOV) of your camera. FOV is
+defined by the angle that the camera sees both left-right, and also
+up-down. As such, it is measured in <em>square degrees</em> (see the
+dashed region in the figure below). When you want to make an image
+larger you either 1) get closer to the subject or 2) <em>decrease</em>
+the FOV which is done by <em>zooming</em> in.</p>
+<div class="center">
+<p><img alt="image" src="camera3D.jpg"/></p>
+</div>
+<h2 class="unnumbered" id="determining-your-field-of-view">Determining
+your field of view</h2>
+<p>Your task, then, is to measure the FOV of our camera. In our case, we
+are only interested in side-to-side motion, so you only need to know the
+the horizontal FOV. This quantity is represented by the angle <span class="math inline">\(\theta\)</span> in the figure below.</p>
+<div class="center">
+<p><img alt="image" src="camera2D.jpg"/></p>
+</div>
+<p>Find <span class="math inline">\(\theta\)</span> with the following
+steps:</p>
+<ol>
+<li><p>Stand back from a wall and face it straight on. In landscape
+(horizontal) mode, take a photograph using a low zoom factor. For most
+modern cell phones, about 1x zoom should work great.<br/>
+</p></li>
+<li><p>Record the zoom value of your photo (remember, zooming changes
+the FOV) here: <span class="math display">\[{\rm Zoom =
+\hspace{2cm}}\]</span></p></li>
+<li><p>Measure the distance <span class="math inline">\(d\)</span> from
+the camera to the wall. Record it here: <span class="math display">\[d =
+\hspace{1.25cm}\]</span></p></li>
+<li><p>Look at the picture you took and use it to find the edges of the
+region on the wall that you photographed. Measure this length <span class="math inline">\(l\)</span> and record it here: <span class="math display">\[l = \hspace{1.25cm}\]</span></p></li>
+<li><p>With <span class="math inline">\(d\)</span> and <span class="math inline">\(l\)</span> we now have enough information to
+compute the horizontal FOV <span class="math inline">\(\theta\)</span>,
+as follows:<br/>
+</p>
+<div class="minipage">
+<p>The triangle to the right represents half of the horizontal FOV of
+our camera. Since it is a right triangle, we can use basic trigonometry
+to relate <span class="math inline">\(\theta\)</span> to <span class="math inline">\(d\)</span> and <span class="math inline">\(l\)</span>. The tangent of an angle equals
+‘opposite over adjacent’ so <span class="math display">\[\tan (\theta/2)
+= \frac{l/2}{d} = \frac{l}{2d}.\]</span> Solve for <span class="math inline">\(\theta\)</span> by using the <span class="math inline">\(\tan^{-1}\)</span> function. <span class="math display">\[\theta/2 = \tan^{-1} \left( \frac{l}{2d}  \right)
+\qquad \Longrightarrow \qquad
+\theta = 2\tan^{-1} \left( \frac{l}{2d}  \right)\]</span> Using this
+formula, find your value of <span class="math inline">\(\theta\)</span>.
+(Make sure your calculator is set to degrees!) Record your <span class="math inline">\(\theta\)</span> here: <span class="math display">\[\hspace{3.7cm} \theta =\]</span></p>
+</div>
+<div class="minipage">
+<div class="center">
+<p><img alt="image" src="triangle.jpg"/></p>
+</div>
+</div></li>
+</ol>
+<p>You are now ready to go outside and measure the distance to your
+star!</p>
+</body></html>
