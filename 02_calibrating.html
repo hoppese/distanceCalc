@@ -1,4 +1,21 @@
-<html><head><meta charset="utf-8"/></head><body><h1 id="sec:FOV">Calibrating your camera</h1>
+<html><head><meta charset="utf-8"/>
+<style>
+  img {
+    width: unset;
+    height: auto;
+  }
+  .img-1 { width: 375px; }
+  .img-2 { width: 625px; }
+  .img-3 { width: 180px; }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 16px 0;
+  }
+</style>
+</head><body><h1 id="sec:FOV">Calibrating your camera</h1>
 <h2 class="unnumbered" id="what-is-field-of-view">What is field of
 view?</h2>
 <p>When you take a photograph, the amount of the subject you capture is
@@ -10,50 +27,124 @@ dashed region in the figure below). When you want to make an image
 larger you either 1) get closer to the subject or 2) <em>decrease</em>
 the FOV which is done by <em>zooming</em> in.</p>
 <div class="center">
-<p><img alt="image" src="camera3D.jpg"/></p>
+<p><img class="img-1" alt="image" src="camera3D.jpg"/></p>
 </div>
 <h2 class="unnumbered" id="determining-your-field-of-view">Determining
 your field of view</h2>
 <p>Your task, then, is to measure the FOV of our camera. In our case, we
 are only interested in side-to-side motion, so you only need to know the
-the horizontal FOV. This quantity is represented by the angle <span class="math inline">\(\theta\)</span> in the figure below.</p>
+the horizontal FOV. This quantity is represented by the angle <span class="math inline">&theta;</span> in the figure below.</p>
 <div class="center">
-<p><img alt="image" src="camera2D.jpg"/></p>
+<p><img class="img-2" alt="image" src="camera2D.jpg" /></p>
 </div>
-<p>Find <span class="math inline">\(\theta\)</span> with the following
+<p>Find <span class="math inline">&theta;</span> with the following
 steps:</p>
 <ol>
 <li><p>Stand back from a wall and face it straight on. In landscape
 (horizontal) mode, take a photograph using a low zoom factor. For most
-modern cell phones, about 1x zoom should work great.<br/>
-</p></li>
+modern cell phones, about 1x zoom should work great.
+<div style="display: flex; align-items: center; justify-content: center; margin-top: 24px; gap: 120px;">
+  <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; min-width: 180px; margin-right: 64px; position: relative;">
+    <div style="font-size: 1.1em; color: #0074D9; font-weight: bold; text-align: right; line-height: 1.3;">
+      Take your picture<br>in landscape mode
+    </div>
+    <svg width="80" height="30" style="position: absolute; left: 110%; top: 50%; transform: translateY(-50%); z-index: 1;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead2" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto" markerUnits="strokeWidth">
+          <polygon points="0,0 12,6 0,12 3,6" fill="#0074D9" />
+        </marker>
+      </defs>
+      <line x1="4" y1="15" x2="76" y2="15" stroke="#0074D9" stroke-width="3" marker-end="url(#arrowhead2)" />
+    </svg>
+  </div>
+  <div style="display: flex; align-items: center; justify-content: center;">
+    <img src="cellphone.svg" alt="Cellphone in landscape mode" style="width: 120px; height: 240px; transform: rotate(90deg); margin-bottom: 8px; z-index: 2;" />
+  </div>
+</div>
+Upload your image here.<br/>
+<input type="file" name="photo_upload" accept="image/*" style="margin-top: 8px;" onchange="previewPhoto(event)" />
+<div id="photo-preview-container" style="margin-top: 12px;"></div>
+<script>
+function previewPhoto(event) {
+  const file = event.target.files[0];
+  const previewContainer = document.getElementById('photo-preview-container');
+  previewContainer.innerHTML = '';
+  if (file && file.type.startsWith('image/')) {
+    const img = document.createElement('img');
+    img.style.maxWidth = '400px';
+    img.style.width = '100%';
+    img.style.display = 'block';
+    img.style.marginTop = '8px';
+    img.alt = 'Preview';
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    previewContainer.appendChild(img);
+  }
+}
+</script>
+</p>
+</li>
 <li><p>Record the zoom value of your photo (remember, zooming changes
-the FOV) here: <span class="math display">\[{\rm Zoom =
-\hspace{2cm}}\]</span></p></li>
-<li><p>Measure the distance <span class="math inline">\(d\)</span> from
-the camera to the wall. Record it here: <span class="math display">\[d =
-\hspace{1.25cm}\]</span></p></li>
+the FOV) here:<br/>
+<input type="text" name="zoom" placeholder="Enter zoom value" style="width: 120px; margin-left: 10px;" />
+</p></li>
+<li><p>Measure the distance <em>d</em> from
+the camera to the wall. Record it here:<br/>
+<input type="text" name="distance_d" placeholder="Enter d value" style="width: 120px; margin-left: 10px;" />
+</p></li>
 <li><p>Look at the picture you took and use it to find the edges of the
-region on the wall that you photographed. Measure this length <span class="math inline">\(l\)</span> and record it here: <span class="math display">\[l = \hspace{1.25cm}\]</span></p></li>
-<li><p>With <span class="math inline">\(d\)</span> and <span class="math inline">\(l\)</span> we now have enough information to
-compute the horizontal FOV <span class="math inline">\(\theta\)</span>,
+region on the wall that you photographed. Measure this length <em>l</em> and record it here:<br/>
+<input type="text" name="length_l" placeholder="Enter l value" style="width: 120px; margin-left: 10px;" />
+</p></li>
+<li><p>With <em>d</em> and <em>l</em> we now have enough information to
+compute the horizontal FOV <span class="math inline">&theta;</span>,
 as follows:<br/>
 </p>
-<div class="minipage">
-<p>The triangle to the right represents half of the horizontal FOV of
-our camera. Since it is a right triangle, we can use basic trigonometry
-to relate <span class="math inline">\(\theta\)</span> to <span class="math inline">\(d\)</span> and <span class="math inline">\(l\)</span>. The tangent of an angle equals
-‘opposite over adjacent’ so <span class="math display">\[\tan (\theta/2)
-= \frac{l/2}{d} = \frac{l}{2d}.\]</span> Solve for <span class="math inline">\(\theta\)</span> by using the <span class="math inline">\(\tan^{-1}\)</span> function. <span class="math display">\[\theta/2 = \tan^{-1} \left( \frac{l}{2d}  \right)
-\qquad \Longrightarrow \qquad
-\theta = 2\tan^{-1} \left( \frac{l}{2d}  \right)\]</span> Using this
-formula, find your value of <span class="math inline">\(\theta\)</span>.
-(Make sure your calculator is set to degrees!) Record your <span class="math inline">\(\theta\)</span> here: <span class="math display">\[\hspace{3.7cm} \theta =\]</span></p>
-</div>
-<div class="minipage">
-<div class="center">
-<p><img alt="image" src="triangle.jpg"/></p>
-</div>
+<div style="display: flex; align-items: flex-start; gap: 32px;">
+  <div style="flex: 2; min-width: 0;">
+    <p>The triangle to the right represents half of the horizontal FOV of our camera. Since it is a right triangle, we can use basic trigonometry to relate <span class="math inline">&theta;</span> to <em>d</em> and <em>l</em>. The tangent of an angle equals 'opposite over adjacent', so:</p>
+    <ul>
+      <li>tan(θ/2) = (l/2) / d = l / (2d)</li>
+    </ul>
+    <p>Solve for <span class="math inline">&theta;</span> by using the inverse tangent function:</p>
+    <ul>
+      <li>θ = 2 × arctan(l / 2d)</li>
+    </ul>
+    <p>The following button uses the values you entered above to compute your FOV.</p>
+    <button onclick="calculateTheta()" style="margin-bottom: 10px;">Calculate θ</button>
+    <div id="theta-result" style="font-weight: bold; margin-top: 8px;"></div>
+    <script>
+function calculateTheta() {
+  const l = parseFloat(document.getElementsByName('length_l')[0].value);
+  const d = parseFloat(document.getElementsByName('distance_d')[0].value);
+  const resultDiv = document.getElementById('theta-result');
+  if (isNaN(l) || isNaN(d) || d === 0) {
+    resultDiv.textContent = 'Please enter valid numbers for l and d (d ≠ 0).';
+    return;
+  }
+  // θ = 2 × arctan(l / 2d), result in degrees
+  const thetaRadians = 2 * Math.atan(l / (2 * d));
+  const thetaDegrees = thetaRadians * (180 / Math.PI);
+  let warning = '';
+  if (thetaDegrees < 0) {
+    warning = 'Warning: θ is negative. Please check your measurements.';
+  } else if (thetaDegrees < 10) {
+    warning = 'Warning: θ is unusually low (less than 10°). Please check your measurements.';
+  } else if (thetaDegrees > 70) {
+    warning = 'Warning: θ is unusually high (greater than 70°). Please check your measurements.';
+  }
+  resultDiv.textContent = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°` + (warning ? `\n${warning}` : '');
+}
+</script>
+  </div>
+  <div style="flex: 1; min-width: 0;">
+    <div class="center">
+      <img class="img-3" alt="image" src="triangle.jpg"/>
+    </div>
+  </div>
 </div></li>
 </ol>
 <p>You are now ready to go outside and measure the distance to your
