@@ -61,35 +61,10 @@ modern cell phones, about 1x zoom should work great.
     <img src="cellphone.svg" alt="Cellphone in landscape mode" style="width: 120px; height: 240px; transform: rotate(90deg); margin-bottom: 8px; z-index: 2;" />
   </div>
 </div>
-Upload your image here.<br/>
-<input type="file" name="photo_upload" accept="image/*" style="margin-top: 8px;" onchange="previewPhoto(event)" />
-<div id="photo-preview-container" style="margin-top: 12px;"></div>
-<script>
-function previewPhoto(event) {
-  const file = event.target.files[0];
-  const previewContainer = document.getElementById('photo-preview-container');
-  previewContainer.innerHTML = '';
-  if (file && file.type.startsWith('image/')) {
-    const img = document.createElement('img');
-    img.style.maxWidth = '400px';
-    img.style.width = '100%';
-    img.style.display = 'block';
-    img.style.marginTop = '8px';
-    img.alt = 'Preview';
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-    previewContainer.appendChild(img);
-  }
-}
-</script>
 </p>
 </li>
-<li><p>Record the zoom value of your photo (remember, zooming changes
-the FOV) here:<br/>
-<input type="text" name="zoom" placeholder="Enter zoom value" style="width: 120px; margin-left: 10px;" />
+<li><p>Write down the zoom value used when taking your photo (remember, zooming changes
+the FOV).<br/>
 </p></li>
 <li><p>Measure the distance <em>d</em> from
 the camera to the wall. Record it here:<br/>
@@ -129,14 +104,22 @@ function calculateTheta() {
   const thetaRadians = 2 * Math.atan(l / (2 * d));
   const thetaDegrees = thetaRadians * (180 / Math.PI);
   let warning = '';
+  let warningColor = '';
   if (thetaDegrees < 0) {
     warning = 'Warning: θ is negative. Please check your measurements.';
+    warningColor = 'red';
   } else if (thetaDegrees < 10) {
     warning = 'Warning: θ is unusually low (less than 10°). Please check your measurements.';
-  } else if (thetaDegrees > 70) {
-    warning = 'Warning: θ is unusually high (greater than 70°). Please check your measurements.';
+    warningColor = 'red';
+  } else if (thetaDegrees > 90) {
+    warning = 'Warning: θ is unusually high (greater than 90°). Please check your measurements.';
+    warningColor = 'red';
   }
-  resultDiv.textContent = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°` + (warning ? `\n${warning}` : '');
+  if (warning) {
+    resultDiv.innerHTML = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°<br><span style='color:red;'>${warning}</span>`;
+  } else {
+    resultDiv.innerHTML = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°<br><span style='color:#0057b8; font-weight:bold;'>Write down your FOV and zoom value before continuing!</span>`;
+  }
 }
 </script>
   </div>
