@@ -109,10 +109,10 @@ function calculateTheta() {
     warning = 'Warning: θ is negative. Please check your measurements.';
     warningColor = 'red';
   } else if (thetaDegrees < 10) {
-    warning = 'Warning: θ is unusually low (less than 10°). Please check your measurements.';
+    warning = 'Warning: θ is unusually low (less than 10°). Please check your measurements and your zoom.';
     warningColor = 'red';
   } else if (thetaDegrees > 90) {
-    warning = 'Warning: θ is unusually high (greater than 90°). Please check your measurements.';
+    warning = 'Warning: θ is unusually high (greater than 90°). Please check your measurements  and your zoom.';
     warningColor = 'red';
   }
   if (warning) {
