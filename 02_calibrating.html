@@ -118,7 +118,9 @@ function calculateTheta() {
   if (warning) {
     resultDiv.innerHTML = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°<br><span style='color:red;'>${warning}</span>`;
   } else {
-    resultDiv.innerHTML = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°<br><span style='color:#0057b8; font-weight:bold;'>Write down your FOV and zoom value before continuing!</span>`;
+    resultDiv.innerHTML = `Your FOV is θ = ${thetaDegrees.toFixed(2)}°<br>
+    <br><span style='font-weight:normal;'>You are now ready to go outside and measure the distance to your star.</span><br><br>
+<span style='color:#0057b8; font-weight:bold;'>Remember to write down your FOV and zoom value before continuing!</span>`;
   }
 }
 </script>
@@ -130,6 +132,4 @@ function calculateTheta() {
   </div>
 </div></li>
 </ol>
-<p>You are now ready to go outside and measure the distance to your
-star!</p>
 </body></html>
