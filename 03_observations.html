@@ -9,14 +9,14 @@ those distant trees making sure your camera <strong>is set to the same
 zoom value you used while determining your FOV.</strong> Note the
 location where you took the photo. Call it Position A.</p>
 <div class="center">
-<p><img alt="image" src="field_Open.jpg"/></p>
+<p><img alt="image" src="field_Open.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
-<p>Now your teacher will place a ‘star’ (a cone) a distance <span class="math inline">\(d\)</span> (maybe 50 - 100 feet) in front of you.
+<p>Now your teacher will place a ‘star’ (a cone) a distance <span class="math display">d</span> (maybe 50 - 100 feet) in front of you.
 You will take photos of the cone from three different locations. As you
 change your position the background trees will appear to move. By
 carefully measuring “how much” they move we can measure the distance to
 the cone. Your teacher will use a tape measure to find the actual
-distance <span class="math inline">\(d\)</span> from Position A to the
+distance <span class="math display">d</span> from Position A to the
 cone. Once you’ve made your parallax measurements, you can compare your
 inferred distance to what was directly measured.</p>
 <h2 class="unnumbered" id="the-view-from-position-a">The view from
@@ -24,26 +24,80 @@ Position A</h2>
 <p>Standing at the same spot as the last photo (Position A), take a
 photo of the cone with the trees in the background.</p>
 <div class="center">
-<p><img alt="image" src="field_A.jpg"/></p>
+<p><img alt="image" src="field_A.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
 <h2 class="unnumbered" id="the-view-from-position-b">The view from
 Position B</h2>
-<p>Move to your right a distance <span class="math inline">\(r\)</span>
+<p>Move to your right a distance <span class="math display">r</span>
 (no more than 5 meters). <em>Notice how the trees behind the cone appear
 to have changed.</em> Make note of your location and take another photo.
 Call this location Position B.</p>
 <div class="center">
-<p><img alt="image" src="field_B.png"/></p>
+<p><img alt="image" src="field_B.png" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
 <p>The distance moved from side-to-side is called the <u>baseline</u>.
-Record the baseline distance (in feet) <span class="math inline">\(b_R\)</span> between Positions A and B here: <span class="math display">\[b_R = B - A = \hspace{1.25cm}\]</span></p>
+Record the baseline distance (in feet) <span class="math display">b_R</span> between Positions A and B here: <span class="math display">b_R = B - A = \hspace{1.25cm}</span></p>
 <h2 class="unnumbered" id="the-view-from-position-c">The view from
 Position C</h2>
 <p>Finally, move to the left of Position A to a new location. Call this
 Position C. Take a third photo of the cone. Again, the distant trees
 behind the cone should appear to have moved.</p>
 <div class="center">
-<p><img alt="image" src="field_C.png"/></p>
+<p><img alt="image" src="field_C.png" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
-<p>Record the baseline distance (in feet) <span class="math inline">\(b_L\)</span> between Positions A and C here: <span class="math display">\[b_L = A - C = \hspace{1.25cm}\]</span></p>
+<p>Record the baseline distance (in feet) <span class="math display">b_L</span> between Positions A and C here: <span class="math display">b_L = A - C = \hspace{1.25cm}</span></p>
+
+<hr>
+<h2>Upload your photo</h2>
+<p>Please upload the first photo you took (the background one with no cone):</p>
+<input type="file" accept="image/*" id="student-photo-upload" />
+<div id="student-photo-preview" style="margin-top: 12px;"></div>
+<div id="heic-download" style="margin-top: 12px;"></div>
+<script>
+function isHeic(file) {
+  return file && file.type === 'image/heic' || (file && file.name && file.name.toLowerCase().endsWith('.heic'));
+}
+document.getElementById('student-photo-upload').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const previewDiv = document.getElementById('student-photo-preview');
+  const heicDiv = document.getElementById('heic-download');
+  previewDiv.innerHTML = '';
+  heicDiv.innerHTML = '';
+  if (file) {
+    if (isHeic(file)) {
+      previewDiv.innerHTML = '<span style="color: red; font-weight: bold;">HEIC images are not widely supported. Click below to convert and download as JPG.</span>';
+      // Try to convert HEIC to JPEG using browser APIs if available
+      if (window.OffscreenCanvas && window.createImageBitmap) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          fetch(e.target.result)
+            .then(res => res.blob())
+            .then(blob => createImageBitmap(blob))
+            .then(bitmap => {
+              const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(bitmap, 0, 0);
+              canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 }).then(jpgBlob => {
+                const url = URL.createObjectURL(jpgBlob);
+                heicDiv.innerHTML = `<a href="${url}" download="converted.jpg" style="color: #0057b8; font-weight: bold;">Download JPG version</a>`;
+              });
+            })
+            .catch(() => {
+              heicDiv.innerHTML = '<span style="color: red;">Automatic conversion failed. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
+            });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        heicDiv.innerHTML = '<span style="color: red;">Automatic conversion not supported in this browser. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewDiv.innerHTML = `<img src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+});
+</script>
 </body></html>
