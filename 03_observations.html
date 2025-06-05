@@ -68,6 +68,15 @@
     margin-top: 4px;
     margin-bottom: 4px;
   }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
   hr {
     border: none;
     border-top: 2px solid #e0e7ef;
@@ -85,14 +94,14 @@ those distant trees making sure your camera <strong>is set to the same
 zoom value you used while determining your FOV.</strong> Note the
 location where you took the photo. Call it Position A.</p>
 <div class="center">
-<p><img alt="image" src="field_Open.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Diagram showing a camera at Position A photographing distant trees labeled as the background stars. The camera's horizontal field of view is marked with angle theta. Dotted lines extend from the camera to the trees, illustrating the field of view. Several trees are labeled as the distant background stars. An inset at the bottom right shows the camera's photo view with the same trees and the angle theta marked. Text in the image reads: The distant background stars, Horizontal field of view theta, and Photo of background stars from Position A. The environment is an open outdoor field with a calm and instructional tone." src="field_Open.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
-<p>Now your teacher will place a ‘star’ (a cone) a distance <span class="math display">d</span> (maybe 50 - 100 feet) in front of you.
+<p>Now your teacher will place a ‘star’ (a cone) a distance <em>d</em> (maybe 50 - 100 feet) in front of you.
 You will take photos of the cone from three different locations. As you
 change your position the background trees will appear to move. By
 carefully measuring “how much” they move we can measure the distance to
 the cone. Your teacher will use a tape measure to find the actual
-distance <span class="math display">d</span> from Position A to the
+distance <em>d</em> from Position A to the
 cone. Once you’ve made your parallax measurements, you can compare your
 inferred distance to what was directly measured.</p>
 <h2 class="unnumbered" id="the-view-from-position-a">The view from
@@ -100,7 +109,12 @@ Position A</h2>
 <p>Standing at the same spot as the last photo (Position A), take a
 photo of the cone with the trees in the background.</p>
 <div class="center">
-<p><img alt="image" src="field_A.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Camera at Position A photographing a orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position A. The scene is calm and instructional, set in an open outdoor environment." src="field_A.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+</div>
+<div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px;">
+  <label for="posA_feet" style="font-weight: 500;">Enter the value on the tape measure at Position A:</label>
+  <input type="number" id="posA_feet" name="posA_feet" min="0" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="feet" />
+  <input type="number" id="posA_inches" name="posA_inches" min="0" max="11" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="inches" />
 </div>
 <h2 class="unnumbered" id="the-view-from-position-b">The view from
 Position B</h2>
@@ -109,9 +123,14 @@ Position B</h2>
 to have changed.</em> Make note of your location and take another photo.
 Call this location Position B.</p>
 <div class="center">
-<p><img alt="image" src="field_B.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Camera at Position B photographing an orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position B. The scene is calm and instructional, set in an open outdoor environment." src="field_B.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
-<p>The distance moved from side-to-side is called the <u>baseline</u>.
+<div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px;">
+  <label for="posB_feet" style="font-weight: 500;">Enter the value on the tape measure at Position B:</label>
+  <input type="number" id="posB_feet" name="posB_feet" min="0" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="feet" />
+  <input type="number" id="posB_inches" name="posB_inches" min="0" max="11" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="inches" />
+</div>
+<p>The distance moved from side-to-side is called the <strong>baseline</strong>.
 Record the baseline distance (in feet) <span class="math display">b_R</span> between Positions A and B here: <span class="math display">b_R = B - A = \hspace{1.25cm}</span></p>
 <h2 class="unnumbered" id="the-view-from-position-c">The view from
 Position C</h2>
@@ -119,7 +138,12 @@ Position C</h2>
 Position C. Take a third photo of the cone. Again, the distant trees
 behind the cone should appear to have moved.</p>
 <div class="center">
-<p><img alt="image" src="field_C.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Camera at Position C photographing a orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position C. The scene is calm and instructional, set in an open outdoor environment." src="field_C.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+</div>
+<div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px;">
+  <label for="posC_feet" style="font-weight: 500;">Enter the value on the tape measure at Position C:</label>
+  <input type="number" id="posC_feet" name="posC_feet" min="0" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="feet" />
+  <input type="number" id="posC_inches" name="posC_inches" min="0" max="11" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="inches" />
 </div>
 <p>Record the baseline distance (in feet) <span class="math display">b_L</span> between Positions A and C here: <span class="math display">b_L = A - C = \hspace{1.25cm}</span></p>
 
