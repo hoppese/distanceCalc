@@ -6,6 +6,11 @@
     color: #222;
     margin: 0;
     padding: 0 0 32px 0;
+    /* Add a small margin to the left and right for better readability */
+    box-sizing: border-box;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
   }
   h1, h2 {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
@@ -104,100 +109,112 @@ the cone. Your teacher will use a tape measure to find the actual
 distance <em>d</em> from Position A to the
 cone. Once you’ve made your parallax measurements, you can compare your
 inferred distance to what was directly measured.</p>
-<h2 class="unnumbered" id="the-view-from-position-a">The view from
-Position A</h2>
-<p>Standing at the same spot as the last photo (Position A), take a
-photo of the cone with the trees in the background.</p>
+<h2 class="unnumbered" id="the-view-from-position-middle">The view from
+the middle</h2>
+<p>Standing at the same spot as the last photo (the Middle), take a
+photo of the cone with the trees in the background. <strong>Record the value of the tape measure at this position.</strong></p>
 <div class="center">
-<p><img alt="Camera at Position A photographing a orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position A. The scene is calm and instructional, set in an open outdoor environment." src="field_A.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Camera at Position Middle photographing a orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position Middle. The scene is calm and instructional, set in an open outdoor environment." src="field_Middle.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px;">
-  <label for="posA_feet" style="font-weight: 500;">Enter the value on the tape measure at Position A:</label>
+  <label for="posA_feet" style="font-weight: 500;">Enter the value on the tape measure at the Middle:</label>
   <input type="number" id="posA_feet" name="posA_feet" min="0" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="feet" />
   <input type="number" id="posA_inches" name="posA_inches" min="0" max="11" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="inches" />
 </div>
-<h2 class="unnumbered" id="the-view-from-position-b">The view from
-Position B</h2>
+<h2 class="unnumbered" id="the-view-from-position-right">The view from
+the right</h2>
 <p>Move to your right a distance <span class="math display">r</span>
 (no more than 5 meters). <em>Notice how the trees behind the cone appear
-to have changed.</em> Make note of your location and take another photo.
-Call this location Position B.</p>
+to have changed.</em> Take another photo. <strong>Record the value of the tape measure at this position.</strong> </p>
+
 <div class="center">
-<p><img alt="Camera at Position B photographing an orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position B. The scene is calm and instructional, set in an open outdoor environment." src="field_B.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Camera at Position Right photographing an orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position Right. The scene is calm and instructional, set in an open outdoor environment." src="field_Right.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px;">
-  <label for="posB_feet" style="font-weight: 500;">Enter the value on the tape measure at Position B:</label>
+  <label for="posB_feet" style="font-weight: 500;">Enter the value on the tape measure at the Right:</label>
   <input type="number" id="posB_feet" name="posB_feet" min="0" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="feet" />
   <input type="number" id="posB_inches" name="posB_inches" min="0" max="11" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="inches" />
 </div>
+
 <p>The distance moved from side-to-side is called the <strong>baseline</strong>.
-Record the baseline distance (in feet) <span class="math display">b_R</span> between Positions A and B here: <span class="math display">b_R = B - A = \hspace{1.25cm}</span></p>
-<h2 class="unnumbered" id="the-view-from-position-c">The view from
-Position C</h2>
-<p>Finally, move to the left of Position A to a new location. Call this
-Position C. Take a third photo of the cone. Again, the distant trees
-behind the cone should appear to have moved.</p>
+Record the baseline distance (in feet) <span class="math display">b_R</span> between Positions Middle and Right here: <span class="math display">b_R = Right - Middle = \hspace{1.25cm}</span></p>
+<h2 class="unnumbered" id="the-view-from-position-left">The view from
+the Left</h2>
+<p>Finally, move to the left of the middle to a new location. Take a third photo of the cone. Again, the distant trees
+behind the cone should appear to have moved. <strong>Record the value of the tape measure at this position.</strong> </p>
 <div class="center">
-<p><img alt="Camera at Position C photographing a orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position C. The scene is calm and instructional, set in an open outdoor environment." src="field_C.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
+<p><img alt="Camera at Position Left photographing a orange cone in a field with distant trees as background stars; inset shows the camera's view with cone and trees, and text reads: Photo of nearby star from Position Left. The scene is calm and instructional, set in an open outdoor environment." src="field_Left.jpg" style="width: 750px; max-width: 100%; height: auto;"/></p>
 </div>
 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 18px;">
-  <label for="posC_feet" style="font-weight: 500;">Enter the value on the tape measure at Position C:</label>
+  <label for="posC_feet" style="font-weight: 500;">Enter the value on the tape measure at the Left:</label>
   <input type="number" id="posC_feet" name="posC_feet" min="0" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="feet" />
   <input type="number" id="posC_inches" name="posC_inches" min="0" max="11" style="width: 60px; appearance: textfield; -moz-appearance: textfield;" placeholder="inches" />
 </div>
-<p>Record the baseline distance (in feet) <span class="math display">b_L</span> between Positions A and C here: <span class="math display">b_L = A - C = \hspace{1.25cm}</span></p>
 
 <hr>
-<h2>Upload your photo</h2>
-<p>Please upload the first photo you took (the background one with no cone):</p>
-<input type="file" accept="image/*" id="student-photo-upload" />
-<div id="student-photo-preview" style="margin-top: 12px;"></div>
-<div id="heic-download" style="margin-top: 12px;"></div>
+
+<h2 class="unnumbered" id="computing-the-baseline">Computing the baselines</h2>
+<p>The distance moved from side-to-side is called the <strong>baseline</strong>. Since you took photos from the left <em>and</em> right of position Middle, you have two baselines.
+<p>We define the right and left baselines as follows:</p>
+<p style="font-size:1.1em; margin-left:1em;">
+<span class="math display">b<sub>R</sub> = Right - Middle,</span>
+&nbsp;&nbsp;&nbsp;
+<span class="math display">b<sub>L</sub> = Middle - Left.</span>
+</p>
+<p>Measured values (from above):</p>
+<ul style="font-size:1.08em; margin-left:1em;">
+  <li>Middle = <span id="A_val"></span></li>
+  <li>Right = <span id="B_val"></span></li>
+  <li>Left = <span id="C_val"></span></li>
+</ul>
 <script>
-function isHeic(file) {
-  return file && file.type === 'image/heic' || (file && file.name && file.name.toLowerCase().endsWith('.heic'));
+function updateABC() {
+  const A = getVal('posA_feet', 'posA_inches');
+  const B = getVal('posB_feet', 'posB_inches');
+  const C = getVal('posC_feet', 'posC_inches');
+  document.getElementById('A_val').textContent = (A / 30.48).toFixed(3) + ' ft';
+  document.getElementById('B_val').textContent = (B / 30.48).toFixed(3) + ' ft';
+  document.getElementById('C_val').textContent = (C / 30.48).toFixed(3) + ' ft';
 }
-document.getElementById('student-photo-upload').addEventListener('change', function(event) {
-  const file = event.target.files[0];
-  const previewDiv = document.getElementById('student-photo-preview');
-  const heicDiv = document.getElementById('heic-download');
-  previewDiv.innerHTML = '';
-  heicDiv.innerHTML = '';
-  if (file) {
-    if (isHeic(file)) {
-      previewDiv.innerHTML = '<span style="color: red; font-weight: bold;">HEIC images are not widely supported. Click below to convert and download as JPG.</span>';
-      // Try to convert HEIC to JPEG using browser APIs if available
-      if (window.OffscreenCanvas && window.createImageBitmap) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          fetch(e.target.result)
-            .then(res => res.blob())
-            .then(blob => createImageBitmap(blob))
-            .then(bitmap => {
-              const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(bitmap, 0, 0);
-              canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 }).then(jpgBlob => {
-                const url = URL.createObjectURL(jpgBlob);
-                heicDiv.innerHTML = `<a href="${url}" download="converted.jpg" style="color: #0057b8; font-weight: bold;">Download JPG version</a>`;
-              });
-            })
-            .catch(() => {
-              heicDiv.innerHTML = '<span style="color: red;">Automatic conversion failed. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
-            });
-        };
-        reader.readAsDataURL(file);
-      } else {
-        heicDiv.innerHTML = '<span style="color: red;">Automatic conversion not supported in this browser. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
-      }
-    } else {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        previewDiv.innerHTML = `<img src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+['posA_feet','posA_inches','posB_feet','posB_inches','posC_feet','posC_inches'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateABC);
 });
+updateABC();
+</script>
+<button type="button" class="modern-btn" onclick="computeBaselines()">Compute b<sub>R</sub> and b<sub>L</sub></button>
+<div id="baseline-results" style="font-size:1.1em; color:#1976d2; font-weight:600; margin-top:10px;"></div>
+<p style="color:#b71c1c; font-weight:600; margin-top:18px;">Important: Write down your two baseline values (b<sub>R</sub> and b<sub>L</sub>) before proceeding to the next step. You will need them for later calculations!</p>
+<script>
+function feetInchesToCm(feet, inches) {
+  return feet * 30.48 + inches * 2.54;
+}
+function getVal(idFeet, idInches) {
+  const feet = parseFloat(document.getElementById(idFeet).value) || 0;
+  const inches = parseFloat(document.getElementById(idInches).value) || 0;
+  return feetInchesToCm(feet, inches);
+}
+function computeBaselines() {
+  const A = getVal('posA_feet', 'posA_inches');
+  const B = getVal('posB_feet', 'posB_inches');
+  const C = getVal('posC_feet', 'posC_inches');
+  document.getElementById('A_val').textContent = (A / 30.48).toFixed(3) + ' ft';
+  document.getElementById('B_val').textContent = (B / 30.48).toFixed(3) + ' ft';
+  document.getElementById('C_val').textContent = (C / 30.48).toFixed(3) + ' ft';
+  let result = '';
+  if (!isNaN(A) && !isNaN(B) && !isNaN(C)) {
+    const bR_ft = (B - A) / 30.48;
+    const bL_ft = (A - C) / 30.48;
+    if (bR_ft < 0 || bL_ft < 0) {
+      result = '<span style="color:#b71c1c; font-weight:600;">Error: One or both baseline values are negative. Please double check your position values for Middle, Right, and Left above.</span>';
+    } else if (bR_ft < 2 || bR_ft > 40 || bL_ft < 2 || bL_ft > 40) {
+      result = '<span style="color:#b71c1c; font-weight:600;">Error: One or both baseline values are outside the expected range (2–40 ft). Please check your position values for Middle, Right, and Left above.</span>';
+    } else {
+      result = `b<sub>R</sub> = ${bR_ft.toFixed(3)} ft, &nbsp; b<sub>L</sub> = ${bL_ft.toFixed(3)} ft`;
+    }
+  } else {
+    result = '<span style="color:#b71c1c;">Please enter all tape measure values above.</span>';
+  }
+  document.getElementById('baseline-results').innerHTML = result;
+}
 </script>
 </body></html>

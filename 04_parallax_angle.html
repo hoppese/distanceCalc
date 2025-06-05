@@ -6,6 +6,11 @@
     color: #222;
     margin: 0;
     padding: 0 0 32px 0;
+    /* Add a small margin to the left and right for better readability */
+    box-sizing: border-box;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
   }
   h1, h2 {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
@@ -112,17 +117,58 @@ determine these positions of the cone: <span class="math display">\[\theta_B = \
 <h2 class="unnumbered" id="the-parallax-angle">The parallax angle</h2>
 <p>We define the <strong>parallax angle</strong> as the angle by which
 the cone appears to move when you change locations. You took photos of
-your star from three positions. The first position (A) is the baseline.
-The angle <span class="math inline">\(p_R\)</span> (see the figure
-above) represents the amount by which the cone appeared to move when
-going to the <em><strong>right</strong></em> from A to B. Likewise,
-<span class="math inline">\(p_C\)</span> gives the amount the cone
-shifted when going to the <em><strong>left</strong></em> from A to C.
-Record your parallax angles here: <span class="math display">\[p_R
-=  \theta_A  - \theta_B =
-\qquad \qquad \qquad \qquad
-p_L = \theta_C - \theta_A =\]</span></p>
-<div class="center">
-<p><img alt="image" src="parallaxAngles.png" style="width:80.0%"/></p>
-</div>
+your star from three positions.</p>
+<hr>
+<h2>Upload your photo</h2>
+<p>Please upload the first photo you took (the background one with no cone):</p>
+<input type="file" accept="image/*" id="student-photo-upload" />
+<div id="student-photo-preview" style="margin-top: 12px;"></div>
+<div id="heic-download" style="margin-top: 12px;"></div>
+<script>
+function isHeic(file) {
+  return file && file.type === 'image/heic' || (file && file.name && file.name.toLowerCase().endsWith('.heic'));
+}
+document.getElementById('student-photo-upload').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const previewDiv = document.getElementById('student-photo-preview');
+  const heicDiv = document.getElementById('heic-download');
+  previewDiv.innerHTML = '';
+  heicDiv.innerHTML = '';
+  if (file) {
+    if (isHeic(file)) {
+      previewDiv.innerHTML = '<span style="color: red; font-weight: bold;">HEIC images are not widely supported. Click below to convert and download as JPG.</span>';
+      // Try to convert HEIC to JPEG using browser APIs if available
+      if (window.OffscreenCanvas && window.createImageBitmap) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          fetch(e.target.result)
+            .then(res => res.blob())
+            .then(blob => createImageBitmap(blob))
+            .then(bitmap => {
+              const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(bitmap, 0, 0);
+              canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 }).then(jpgBlob => {
+                const url = URL.createObjectURL(jpgBlob);
+                heicDiv.innerHTML = `<a href="${url}" download="converted.jpg" style="color: #0057b8; font-weight: bold;">Download JPG version</a>`;
+              });
+            })
+            .catch(() => {
+              heicDiv.innerHTML = '<span style="color: red;">Automatic conversion failed. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
+            });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        heicDiv.innerHTML = '<span style="color: red;">Automatic conversion not supported in this browser. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewDiv.innerHTML = `<img src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+});
+</script>
 </body></html>
