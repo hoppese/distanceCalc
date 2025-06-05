@@ -1,14 +1,89 @@
 <html>
   <head>
     <meta charset="utf-8"/>
+    <style>
+      body {
+        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
+        background: #f8fafc;
+        color: #222;
+        margin: 0;
+        padding: 0 0 32px 0;
+      }
+      h1, h2 {
+        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        margin-top: 32px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        color: #0057b8;
+        font-size: 2.1em;
+        border-bottom: 2px solid #e0e7ef;
+        padding-bottom: 8px;
+      }
+      h2 {
+        color: #1e88e5;
+        font-size: 1.35em;
+        border-left: 5px solid #90caf9;
+        padding-left: 12px;
+        background: #e3f2fd;
+        border-radius: 4px;
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 16px 0;
+      }
+      button, .modern-btn {
+        background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 28px;
+        font-size: 1.08em;
+        font-family: inherit;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(30,136,229,0.08);
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      button:hover, .modern-btn:hover {
+        background: linear-gradient(90deg, #1565c0 0%, #1976d2 100%);
+        box-shadow: 0 4px 16px rgba(30,136,229,0.13);
+      }
+      input[type="file"] {
+        font-family: inherit;
+        font-size: 1em;
+        margin-top: 8px;
+      }
+      input[type="text"] {
+        border: 1px solid #b0bec5;
+        border-radius: 4px;
+        padding: 6px 10px;
+        font-size: 1em;
+        font-family: inherit;
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }
+      hr {
+        border: none;
+        border-top: 2px solid #e0e7ef;
+        margin: 32px 0 24px 0;
+      }
+    </style>
   </head>
   <body>
     <h1 id="background-on-stellar-parallax">Background on stellar parallax</h1>
     <p>Our primary way to measure the distance to nearby stars is through the use of <em>parallax</em> (an apparent change in position of an object due to the motion of an observer). As the Earth moves in its orbit throughout the year, our change in position causes a continuous change in perspective. The diagram below shows the Earth at four different positions in its orbit.</p>
     <div class="center">
       <p><img alt="image" src="star_parallax_solution.png" style="width:100.0%"/></p>
-      <p><a href="https://javalab.org/en/stellar_parallax_en/" target="_blank">View an interactive parallax animation here</a></p>
     </div>
+    <p><a href="https://javalab.org/en/stellar_parallax_en/" target="_blank">View an interactive parallax animation here</a></p>
     <p>Look at the three panels at the bottom of the figure and notice that the ‘nearby star’ appears to move relative to the background ‘distant stars’. By measuring the amount that the nearby star moves throughout the year, we can measure its distance <em>d</em> from the Earth.</p>
     <p>Note that this figure drastically exaggerates the closeness of both the nearby and distant stars. In reality, the Earth – Sun distance (1 AU) is extraordinarily small relative to <em>d</em>. When studying real stars, <em>d</em> ranges from a few light years up to a few hundred light years. Meanwhile, the distant stars are at least thousands of light years away, effectively stationary.</p>
     <p>Your goal in this lab is to measure the distance to use a nearby ‘star’. Your star (a cone) will be placed in a large open field. You will then take photos of it from different positions. In the photos you take, the cone will shift relative to the background stars (the distant trees far across the field). Before you can head out and start snapping photos, you need to determine the field of view of your camera.</p>
