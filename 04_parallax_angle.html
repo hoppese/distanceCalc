@@ -80,9 +80,16 @@
   }
 </style></head><body><h1 id="measuring-the-parallax-angle">Measuring the Parallax Angle</h1>
 <p>You will now figure out exactly how much the cone appeared to shift
-as you moved between Positions A, B and C.</p>
+as you moved between Middle, Right and Left positions.</p>
+
 <h2 class="unnumbered" id="preparing-your-view-of-the-background-stars">Preparing your view of
 the background stars</h2>
+<p>Please upload the first photo you took below (the background one with no cone). 
+Note that if your image is not a JPG or PNG you'll need to convert at this link: <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">general image converter</a>.</p>
+<input type="file" accept="image/*" id="student-photo-upload" />
+<div id="student-photo-preview" style="margin-top: 12px;"></div>
+<div id="heic-download" style="margin-top: 12px;"></div>
+
 <p>Print out the photo you took of the background trees (with no cone
 present). Ask your professor or TA if you need help printing. Your next
 step is to use a pen and ruler to mark out even degree spacings on this
@@ -119,15 +126,7 @@ determine these positions of the cone: <span class="math display">\[\theta_B = \
 the cone appears to move when you change locations. You took photos of
 your star from three positions.</p>
 <hr>
-<h2>Upload your photo</h2>
-<p>Please upload the first photo you took (the background one with no cone):</p>
-<input type="file" accept="image/*" id="student-photo-upload" />
-<div id="student-photo-preview" style="margin-top: 12px;"></div>
-<div id="heic-download" style="margin-top: 12px;"></div>
 <script>
-function isHeic(file) {
-  return file && file.type === 'image/heic' || (file && file.name && file.name.toLowerCase().endsWith('.heic'));
-}
 document.getElementById('student-photo-upload').addEventListener('change', function(event) {
   const file = event.target.files[0];
   const previewDiv = document.getElementById('student-photo-preview');
@@ -135,39 +134,17 @@ document.getElementById('student-photo-upload').addEventListener('change', funct
   previewDiv.innerHTML = '';
   heicDiv.innerHTML = '';
   if (file) {
-    if (isHeic(file)) {
-      previewDiv.innerHTML = '<span style="color: red; font-weight: bold;">HEIC images are not widely supported. Click below to convert and download as JPG.</span>';
-      // Try to convert HEIC to JPEG using browser APIs if available
-      if (window.OffscreenCanvas && window.createImageBitmap) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          fetch(e.target.result)
-            .then(res => res.blob())
-            .then(blob => createImageBitmap(blob))
-            .then(bitmap => {
-              const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-              const ctx = canvas.getContext('2d');
-              ctx.drawImage(bitmap, 0, 0);
-              canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 }).then(jpgBlob => {
-                const url = URL.createObjectURL(jpgBlob);
-                heicDiv.innerHTML = `<a href="${url}" download="converted.jpg" style="color: #0057b8; font-weight: bold;">Download JPG version</a>`;
-              });
-            })
-            .catch(() => {
-              heicDiv.innerHTML = '<span style="color: red;">Automatic conversion failed. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
-            });
-        };
-        reader.readAsDataURL(file);
-      } else {
-        heicDiv.innerHTML = '<span style="color: red;">Automatic conversion not supported in this browser. Please use an online converter such as <a href="https://heic2jpg.com/" target="_blank" style="color:#0057b8; font-weight:bold;">heic2jpg.com</a>.</span>';
-      }
-    } else {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        previewDiv.innerHTML = `<img src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
-      };
-      reader.readAsDataURL(file);
+    const validTypes = ['image/jpeg', 'image/png'];
+    if (!validTypes.includes(file.type)) {
+      previewDiv.innerHTML = '<span style="color: red; font-weight: bold;">Error: Only JPG and PNG images are supported. Please convert your image at the link above and then upload a valid file.</span>';
+      event.target.value = '';
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewDiv.innerHTML = `<img src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
+    };
+    reader.readAsDataURL(file);
   }
 });
 </script>
