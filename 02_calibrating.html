@@ -72,7 +72,13 @@
     font-family: inherit;
     margin-top: 4px;
     margin-bottom: 4px;
+    text-align: center;
   }
+  input[type="text"]::placeholder {
+  font-style: italic;
+  color: #888;
+  text-align: center;
+}
   hr {
     border: none;
     border-top: 2px solid #e0e7ef;
@@ -124,12 +130,12 @@ modern cell phones, about 1x zoom should work great.
 </p></li>
 <li><p>Measure the distance <em>d</em> from the camera to the wall.<br/>
   <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">Record the value <em>d</em> here:
-    <input type="text" name="distance_d" placeholder="Enter d value" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0;" />
+    <input type="text" name="distance_d" placeholder="d" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0;" />
   </span>
 </p></li>
 <li><p>Look at the picture you took and use it to find the edges of the region on the wall that you photographed.<br/>
   <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">Measure this length <em>l</em> and record it here:
-    <input type="text" name="length_l" placeholder="Enter l value" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0;" />
+    <input type="text" name="length_l" placeholder="l" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0;" />
   </span>
 </p></li>
 <li><p>With <em>d</em> and <em>l</em> we now have enough information to
@@ -140,11 +146,11 @@ as follows:<br/>
   <div style="flex: 2; min-width: 0;">
     <p>The triangle to the right represents half of the horizontal FOV of our camera. Since it is a right triangle, we can use basic trigonometry to relate <span class="math inline">&theta;</span> to <em>d</em> and <em>l</em>. The tangent of an angle equals 'opposite over adjacent', so:</p>
     <ul>
-      <li>tan(θ/2) = (l/2) / d = l / (2d)</li>
+      <li>tan(θ/2) = (<em>l</em>/2) / <em>d</em> = <em>l</em> / (2<em>d</em>)</li>
     </ul>
     <p>Solve for <span class="math inline">&theta;</span> by using the inverse tangent function:</p>
     <ul>
-      <li>θ = 2 × arctan(l / 2d)</li>
+      <li>&theta; = 2 × arctan(<em>l</em> / 2<em>d</em>)</li>
     </ul>
     <p>The following button uses the values you entered above to compute your FOV.</p>
     <button onclick="calculateTheta()" style="margin-bottom: 10px;">Calculate θ</button>
