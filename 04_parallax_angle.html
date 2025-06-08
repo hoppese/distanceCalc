@@ -72,6 +72,7 @@
     font-family: inherit;
     margin-top: 4px;
     margin-bottom: 4px;
+    text-align: center;
   }
   hr {
     border: none;
@@ -92,6 +93,14 @@ Note that if your image is not a JPG or PNG you'll need to convert at this link:
 <div id="student-photo-preview" style="margin-top: 12px;"></div>
 <div id="heic-download" style="margin-top: 12px;"></div>
 
+<p> Next, we wish to add lines every 5 degrees to this image. To do this, we need to
+know the horizontal field of view (FOV) of your camera. You calculated this and wrote it down earlier.<br>
+<span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">Enter your FOV value θ here:
+    <input type="text" id="fov-input" name="distance_d" placeholder="θ" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" />
+  </span>
+</p>
+<p><button id="draw-lines-btn" class="modern-btn" style="margin-bottom: 10px;">Add 5° Lines to Image</button></p>
+<div id="image-with-lines" style="margin-top: 16px;"></div>
 <p>Print out the photo you took of the background trees (with no cone
 present). Ask your professor or TA if you need help printing. Your next
 step is to use a pen and ruler to mark out even degree spacings on this
@@ -144,10 +153,84 @@ document.getElementById('student-photo-upload').addEventListener('change', funct
     }
     const reader = new FileReader();
     reader.onload = function(e) {
-      previewDiv.innerHTML = `<img src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
+      previewDiv.innerHTML = `<img id="uploaded-img" src="${e.target.result}" alt="Student uploaded field photo" style="max-width: 400px; max-height: 300px; border: 1px solid #ccc; margin-top: 8px;" />`;
+      document.getElementById('image-with-lines').innerHTML = '';
     };
     reader.readAsDataURL(file);
   }
 });
+
+document.getElementById('draw-lines-btn').addEventListener('click', function() {
+  const img = document.getElementById('uploaded-img');
+  const fovInput = document.getElementById('fov-input').value;
+  if (!img) {
+    alert('Please upload an image first.');
+    return;
+  }
+  const fov = parseFloat(fovInput);
+  if (isNaN(fov) || fov <= 0) {
+    alert('Please enter a valid FOV (θ) value.');
+    return;
+  }
+  // Create a canvas to draw on
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  // Wait for image to load if not already
+  if (!img.complete) {
+    img.onload = () => drawLinesOnImage(img, fov, canvas, ctx);
+  } else {
+    drawLinesOnImage(img, fov, canvas, ctx);
+  }
+});
+
+function drawLinesOnImage(img, fov, canvas, ctx) {
+  // Set canvas size to match image, but double the display size
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  // Draw vertical lines every 5 degrees
+  const nLines = Math.floor(fov / 5);
+  const pxPerDeg = canvas.width / fov;
+  ctx.save();
+  ctx.strokeStyle = '#d32f2f'; // red
+  ctx.lineWidth = 8; // doubled thickness
+  ctx.globalAlpha = 0.7;
+  for (let i = 0; i <= nLines; i++) {
+    const deg = i * 5;
+    const x = Math.round(deg * pxPerDeg);
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.strokeStyle = '#d32f2f';
+    ctx.lineWidth = 8; // doubled thickness
+    ctx.globalAlpha = 0.7;
+    ctx.stroke();
+    // Label the degree value above the line
+    ctx.font = 'bold 110px Segoe UI, Arial, sans-serif'; // 5x larger
+    ctx.fillStyle = '#d32f2f';
+    ctx.globalAlpha = 1.0;
+    ctx.textAlign = 'center';
+    ctx.fillText(`${deg}°`, x, 150); // 5x higher (was 30)
+    ctx.globalAlpha = 0.7;
+  }
+  // Add 0° label at far left and max FOV at far right
+  ctx.font = 'bold 120px Segoe UI, Arial, sans-serif'; // 5x larger
+  ctx.fillStyle = '#d32f2f';
+  ctx.globalAlpha = 1.0;
+  ctx.textAlign = 'left';
+  ctx.fillText('0°', 40, canvas.height - 80); // 5x lower (was 8, 16)
+  ctx.textAlign = 'right';
+  ctx.fillText(`${fov.toFixed(0)}°`, canvas.width - 40, canvas.height - 80);
+  ctx.restore();
+  // Show the result, double the display size
+  const outDiv = document.getElementById('image-with-lines');
+  outDiv.innerHTML = '';
+  canvas.style.maxWidth = '800px';
+  canvas.style.maxHeight = '600px';
+  canvas.style.width = '800px';
+  canvas.style.height = 'auto';
+  canvas.style.border = '2px solid #d32f2f';
+  outDiv.appendChild(canvas);
+}
 </script>
 </body></html>
