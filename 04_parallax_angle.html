@@ -90,37 +90,30 @@ Note that if your image is not a JPG or PNG you'll need to convert at this link:
 <p><span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin: 18px 0;">Upload background image here:
   <input type="file" accept="image/*" id="student-photo-upload" style="margin-left: 10px;" />
 </span></p>
-<div id="student-photo-preview" style="margin-top: 12px;"></div>
+<div id="student-photo-preview" style="margin-top: 12px; width: 400px; height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px; overflow: hidden; color: #888; font-size: 1.08em; text-align: center;">
+  Uploaded image preview will appear here
+</div>
 <div id="heic-download" style="margin-top: 12px;"></div>
 
 <p> Next, we wish to add lines every 5 degrees to this image. To do this, we need to
 know the horizontal field of view (FOV) of your camera. You calculated this and wrote it down earlier.<br>
 <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">Enter your FOV value θ here:
     <input type="text" id="fov-input" name="distance_d" placeholder="θ" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" />
-  </span>
+  </span> 
 </p>
-<p><button id="draw-lines-btn" class="modern-btn" onclick="drawLinesBtnHandler()" style="margin-bottom: 10px;">Add 5° Lines to Image</button></p>
-<div id="image-with-lines" style="margin-top: 16px;"></div>
-<p>Print out the photo you took of the background trees (with no cone
-present). Ask your professor or TA if you need help printing. Your next
-step is to use a pen and ruler to mark out even degree spacings on this
-photo. Proceed as follows.</p>
-<ol>
-<li><p>What was the horizontal FOV, <span class="math inline">\(\theta\)</span>? You found it above in Sec. <a data-reference="sec:FOV" data-reference-type="ref" href="#sec:FOV">2</a>: <span class="math display">\[\theta =
-\hspace{1.15cm}\]</span></p></li>
-<li><p>Use a ruler to measure the width <span class="math inline">\(w\)</span> of your printed photo in centimeters.
-Record the value here: <span class="math display">\[w =
-\hspace{1.25cm}\]</span></p></li>
-<li><p>Compute the number of <strong>centimeters per degree</strong> by
-dividing: <span class="math display">\[\frac{w}{\theta} =
-\hspace{1.25cm}\]</span></p></li>
-<li><p>With this value, use a ruler to mark off even degree spacings on
-your photograph. An example of what at <span class="math inline">\(20^\circ\)</span> FOV would look like is shown
-below.</p></li>
-</ol>
-<div class="center">
-<p><img alt="image" src="backgroundAngles.jpg" style="width:70.0%"/></p>
+<p>
+Now, click the button below to make a version of your image with lines every degree. <br>
+<button id="draw-lines-btn" class="modern-btn" onclick="drawLinesBtnHandler()" style="margin-bottom: 10px;">Add degree lines to image</button></p>
+<div id="image-frame" style="margin-top: 16px; width: 832px; height: 632px; overflow: auto; border: 2px solid #b0bec5; border-radius: 8px; background: #fff; box-shadow: 0 2px 8px #e0e7ef; position: relative;">
+  <div id="image-with-lines" style="width: max-content; height: max-content; color: #888; font-size: 1.08em; text-align: center; display: flex; align-items: center; justify-content: center; height: 100%;">
+  </div>
 </div>
+<p id="zoom-controls" style="margin-top:10px; margin-bottom:0; text-align:center;">
+  <button class="modern-btn" onclick="zoomImage(-1)">-</button>
+  <span style="font-weight:600; color:#1976d2; margin:0 10px;">Zoom</span>
+  <button class="modern-btn" onclick="zoomImage(1)">+</button>
+</p>
+
 <h2 class="unnumbered" id="the-location-of-our-star-from-different-positions">The location of
 our ‘star’ from different positions</h2>
 <p>Look at the photo you took of the cone from Position A. Note the
@@ -160,7 +153,37 @@ document.getElementById('student-photo-upload').addEventListener('change', funct
   }
 });
 
+let currentZoom = 1;
+const minZoom = 0.5;
+const maxZoom = 3;
+const zoomStep = 0.2;
+
+// Set these as globals so we can update them after first image load
+let frameWidth = 832;
+let frameHeight = 632;
+
+function zoomImage(direction) {
+  if (direction > 0 && currentZoom < maxZoom) {
+    currentZoom += zoomStep;
+  } else if (direction < 0 && currentZoom > minZoom) {
+    currentZoom -= zoomStep;
+  }
+  redrawImageWithZoom();
+}
+
+function redrawImageWithZoom() {
+  const img = document.getElementById('uploaded-img');
+  const fovInput = document.getElementById('fov-input').value;
+  if (!img || !fovInput) return;
+  const fov = parseFloat(fovInput);
+  if (isNaN(fov) || fov <= 0) return;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  drawLinesOnImage(img, fov, canvas, ctx, currentZoom);
+}
+
 function drawLinesBtnHandler() {
+  currentZoom = 1; // Reset zoom on new draw
   const img = document.getElementById('uploaded-img');
   const fovInput = document.getElementById('fov-input').value;
   if (!img) {
@@ -172,40 +195,70 @@ function drawLinesBtnHandler() {
     alert('Please enter a valid FOV (θ) value.');
     return;
   }
+  // Calculate frame size to fit image at base scale
+  const baseScale = 0.20;
+  const margin = 32;
+  const marginTopBottom = 16;
+  frameWidth = Math.round(img.naturalWidth * baseScale) + 2 * margin;
+  frameHeight = Math.round(img.naturalHeight * baseScale) + 2 * marginTopBottom;
+  const frameDiv = document.getElementById('image-frame');
+  frameDiv.style.width = frameWidth + 'px';
+  frameDiv.style.height = frameHeight + 'px';
   // Create a canvas to draw on
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   // Wait for image to load if not already
   if (!img.complete) {
-    img.onload = () => drawLinesOnImage(img, fov, canvas, ctx);
+    img.onload = () => drawLinesOnImage(img, fov, canvas, ctx, currentZoom);
   } else {
-    drawLinesOnImage(img, fov, canvas, ctx);
+    drawLinesOnImage(img, fov, canvas, ctx, currentZoom);
   }
 }
 
-function drawLinesOnImage(img, fov, canvas, ctx) {
-  // Scale image to 1/4 size
-  const scale = 0.20;
-  canvas.width = Math.round(img.naturalWidth * scale);
-  canvas.height = Math.round(img.naturalHeight * scale);
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  const numLines = Math.floor(fov / 5);
-  const spacing = canvas.width / fov * 5; // pixels per 5 degrees
-  ctx.strokeStyle = 'red';
-  ctx.lineWidth = 1;
-  for (let i = 0; i <= numLines; i++) {
-    const x = i * spacing;
+function drawLinesOnImage(img, fov, canvas, ctx, zoom = 1) {
+  // Scale image to 1/5 size, then apply zoom
+  const baseScale = 0.20;
+  const scale = baseScale * zoom;
+  const margin = 32; // Add 32px margin on left and right
+  const marginTopBottom = 16; // Add 16px margin on top and bottom
+  canvas.width = Math.round(img.naturalWidth * scale) + 2 * margin;
+  canvas.height = Math.round(img.naturalHeight * scale) + 2 * marginTopBottom;
+  // Fill background with white for margin
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Draw image with margin offset
+  ctx.drawImage(img, margin, marginTopBottom, Math.round(img.naturalWidth * scale), Math.round(img.naturalHeight * scale));
+  const num5deg = Math.floor(fov / 5);
+  const num1deg = Math.floor(fov);
+  const spacing5 = (canvas.width - 2 * margin) / fov * 5; // pixels per 5 degrees
+  const spacing1 = (canvas.width - 2 * margin) / fov; // pixels per 1 degree
+  // Draw thin 1° lines
+  ctx.strokeStyle = '#cc2222';
+  ctx.lineWidth = 0.7;
+  for (let i = 0; i <= num1deg; i++) {
+    const x = margin + i * spacing1;
     ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, canvas.height);
+    ctx.moveTo(x, marginTopBottom);
+    ctx.lineTo(x, canvas.height - marginTopBottom);
+    ctx.stroke();
+  }
+  // Draw thick 5° lines and labels
+  ctx.strokeStyle = 'red';
+  ctx.lineWidth = 2;
+  for (let i = 0; i <= num5deg; i++) {
+    const x = margin + i * spacing5;
+    ctx.beginPath();
+    ctx.moveTo(x, marginTopBottom);
+    ctx.lineTo(x, canvas.height - marginTopBottom);
     ctx.stroke();
     ctx.fillStyle = 'red';
     ctx.font = '16px Arial';
     // Place label at vertical center (midline)
     ctx.fillText(`${i * 5}\u00B0`, x + 2, canvas.height / 2);
   }
-  document.getElementById('image-with-lines').innerHTML = '';
-  document.getElementById('image-with-lines').appendChild(canvas);
+  const imageWithLinesDiv = document.getElementById('image-with-lines');
+  imageWithLinesDiv.innerHTML = '';
+  imageWithLinesDiv.appendChild(canvas);
 }
 </script>
 </body></html>
