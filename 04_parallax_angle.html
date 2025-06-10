@@ -101,6 +101,7 @@ know the horizontal field of view (FOV) of your camera. You calculated this and 
     <input type="text" id="fov-input" name="distance_d" placeholder="θ" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" />
   </span> 
 </p>
+
 <p>
 Now, click the button below to make a version of your image with lines every degree. <br>
 <button id="draw-lines-btn" class="modern-btn" onclick="drawLinesBtnHandler()" style="margin-bottom: 10px;">Add degree lines to image</button></p>
@@ -114,22 +115,38 @@ Now, click the button below to make a version of your image with lines every deg
   <button class="modern-btn" onclick="zoomImage(1)">+</button>
 </p>
 
-<h2 class="unnumbered" id="the-location-of-our-star-from-different-positions">The location of
-our ‘star’ from different positions</h2>
-<p>Look at the photo you took of the cone from Position A. Note the
-cone’s location <strong>relative to the background trees</strong>.
-Compare its position to the prepared image from the previous section.
-What is the <em>angular location of the cone, as seen from Position
-A</em>? <span class="math display">\[\theta_A = \hspace{1.4cm}\]</span>
-Now, look a your photos from Positions B and C. Again, look at the trees
-behind the cone, compare to your image with marked degrees, and
-determine these positions of the cone: <span class="math display">\[\theta_B = \hspace{3.4cm}
-\theta_C =\]</span></p>
-<h2 class="unnumbered" id="the-parallax-angle">The parallax angle</h2>
-<p>We define the <strong>parallax angle</strong> as the angle by which
-the cone appears to move when you change locations. You took photos of
-your star from three positions.</p>
-<hr>
+<h2 class="unnumbered" id="the-location-of-our-star-from-different-positions">Computing your Parallax Angles</h2>
+Now, look at the photo you took with the cone in the middle. 
+Identify the features <strong>far behind</strong> the cone.
+Next, look at the annotated image you just created.
+Using the degree markers on that image, what is the angular 
+postion of the cone in the 'Middle photo'?
+
+<p>
+  <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">
+    <label style="margin-left: 10px;">Enter the Middle angle here: <input type="text" id="angle-middle" name="angle_middle" placeholder="Middle" style="width: 80px; margin-left: 4px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
+  </span>
+</p>
+
+Repeat that process for the cones in the Left and Right photos.<br><br>
+
+<div style="display: flex; gap: 32px;">
+  <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">
+    <label style="margin-left: 10px;">Enter the Left angle here: <input type="text" id="angle-left" name="angle_left" placeholder="Left" style="width: 80px; margin-left: 4px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
+  </span>
+  <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">
+    <label style="margin-left: 10px;">Enter the Right angle here: <input type="text" id="angle-right" name="angle_right" placeholder="Right" style="width: 80px; margin-left: 4px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
+  </span>
+</div>
+
+<div style="margin-top: 18px; margin-bottom: 8px; text-align: left;">
+  <button class="modern-btn" onclick="computeParallaxAngles()">Compute parallax angle</button>
+</div>
+<div id="parallax-result" style="margin-left: 0; font-weight: 600; color: #c62828; margin-top: 10px; min-height: 2.5em;"></div>
+
+<p> You're finally ready to proceed and compute the distance to your 'star'.</p>
+<p style="color:#0d2357; font-weight:600; margin-top:18px;">Important: Write down your two parallax angles (p<sub>L</sub> and p<sub>R</sub>) before proceeding to the next step. You will need them for later calculations!</p>
+
 <script>
 document.getElementById('student-photo-upload').addEventListener('change', function(event) {
   const file = event.target.files[0];
@@ -259,6 +276,26 @@ function drawLinesOnImage(img, fov, canvas, ctx, zoom = 1) {
   const imageWithLinesDiv = document.getElementById('image-with-lines');
   imageWithLinesDiv.innerHTML = '';
   imageWithLinesDiv.appendChild(canvas);
+}
+
+function computeParallaxAngles() {
+  const middle = parseFloat(document.getElementById('angle-middle').value);
+  const left = parseFloat(document.getElementById('angle-left').value);
+  const right = parseFloat(document.getElementById('angle-right').value);
+  const resultSpan = document.getElementById('parallax-result');
+  if (isNaN(middle) || isNaN(left) || isNaN(right)) {
+    resultSpan.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Please enter all three angles above.</span>';
+    return;
+  }
+  // Check order: left > middle > right
+  if (!(left > middle && middle > right)) {
+    resultSpan.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Error: Note that the cone appear to move left when we move right, and vice versa. Therefore, we expect: Left &gt; Middle &gt; Right.</span>';
+    return;
+  }
+  const pL = (left - middle).toFixed(2);
+  const pR = (middle - right).toFixed(2);
+  // Styled output to match b_L and b_R in 03_observations.html
+  resultSpan.innerHTML = `<span style="font-size:1.1em; color:#1976d2; font-weight:600;">p<sub>R</sub> = ${pR}°,&nbsp; p<sub>L</sub> = ${pL}°</span>`;
 }
 </script>
 </body></html>
