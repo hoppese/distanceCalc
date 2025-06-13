@@ -73,18 +73,110 @@
     border-top: 2px solid #e0e7ef;
     margin: 32px 0 24px 0;
   }
-</style></head><body><h1 id="inferring-the-distance-to-your-star">Inferring the distance to
-your star</h1>
-<p>Before you actually compute the distance to your star from the
-parallax measurements, write down a guess for how far you think the star
-was <span class="math display">\[d_{\rm guess} =\]</span></p>
-<div class="center">
-<p><img alt="image" src="parallaxAngles2.png" style="width:33.0%"/></p>
+</style></head><body><h1 id="inferring-the-distance-to-your-star">Measuring the Distance to
+Your Star</h1>
+
+
+<p>You're now ready to use the angle and baseline measurements you made previously to 
+compute the distance to your star. Since you took photos from the left and right you'll 
+get two different distances.</p>
+
+<h2 class="unnumbered" id="left-distance">The distance from your left and middle photos</h2>
+
+<div class="center" style="align-items: center; gap: 32px;">
+  <div style="min-width: 220px; text-align: right; margin-top: 12px;">
+    With the photos you took from the left and middle positions, you were able to measure the 
+    left baseline and parallax angles. Enter those values here:<br>
+    <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 10px; margin-bottom: 10px;">
+      <label for="baseline-left" style="margin-left: 10px;">Left baseline:
+        <input type="text" id="baseline-left" style="width: 110px; margin-left: 8px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" placeholder="feet" />
+      </label>
+    </span>
+    <br>
+    <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 10px; margin-bottom: 10px;">
+      <label for="parallax-left" style="margin-left: 10px;">Left parallax angle:
+        <input type="text" id="parallax-left" style="width: 110px; margin-left: 8px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" placeholder="degrees" />
+      </label>
+    </span>
+    <br>
+    A bit of trigonometry tells us that the distance to the 'star' is given by:
+    <div style="font-size: 1.25em; color: #0d2357; font-weight: 600; margin-bottom: 12px;">
+      d = <span style="font-size:1.1em; vertical-align:middle;">b<sub>L</sub> / tan&nbsp;p<sub>L</sub></span>
+    </div>
+    <button class="modern-btn" onclick="computeLeftDistance()">Compute left distance</button>
+    <div id="left-distance-result" style="margin-top: 10px; font-size:1.08em; font-weight:600; color:#1976d2;"></div>
+  </div>
+  <img alt="Parallax angle from Left position" src="parallaxAngleLeft.jpg" style="width:33%; max-width:340px; box-shadow:0 2px 8px #e0e7ef; margin: 18px 0;" />
 </div>
-<p>Finally, we have all the pieces in place to determine the distance to
-our star. Because we have measured two baseline distances and two
-parallax angles, we have two measurements of distance to the star: <span class="math display">\[d_L = \frac{b_L}{\tan p_L} =
-\qquad \qquad \qquad \qquad
-d_R = \frac{b_R}{\tan p_R} =\]</span> Are your two measurements the
-same? Are they close to the guess you made?</p>
+<div class="center" style="align-items: center; gap: 32px;">
+  <img alt="Parallax angle from Right position" src="parallaxAngleRight.jpg" style="width:33%; max-width:340px; box-shadow:0 2px 8px #e0e7ef; margin: 18px 0;" />
+  <div style="min-width: 220px; text-align: left; margin-top: 12px;">
+    With the photos you took from the right and middle positions, you were able to measure the 
+    right baseline and parallax angles. Enter those values here:<br>
+    <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 10px; margin-bottom: 10px;">
+      <label for="baseline-right" style="margin-left: 10px;">Right baseline:
+        <input type="text" id="baseline-right" style="width: 110px; margin-left: 8px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" placeholder="feet" />
+      </label>
+    </span>
+    <br>
+    <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 10px; margin-bottom: 10px;">
+      <label for="parallax-right" style="margin-left: 10px;">Right parallax angle:
+        <input type="text" id="parallax-right" style="width: 110px; margin-left: 8px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" placeholder="degrees" />
+      </label>
+    </span>
+    <br>
+    A bit of trigonometry tells us that the distance to the 'star' is given by:
+    <div style="font-size: 1.25em; color: #0d2357; font-weight: 600; margin-bottom: 12px;">
+      d = <span style="font-size:1.1em; vertical-align:middle;">b<sub>R</sub> / tan&nbsp;p<sub>R</sub></span>
+    </div>
+    <button class="modern-btn" onclick="computeRightDistance()">Compute right distance</button>
+    <div id="right-distance-result" style="margin-top: 10px; font-size:1.08em; font-weight:600; color:#1976d2;"></div>
+  </div>
+</div>
+<p>
+You've finished computing the distance to your star! Write down your values. 
+You'll upload them on the next (and final) page.
+</p>
+<script>
+function computeLeftDistance() {
+  const bL = parseFloat(document.getElementById('baseline-left').value);
+  const pL = parseFloat(document.getElementById('parallax-left').value);
+  const resultDiv = document.getElementById('left-distance-result');
+  if (isNaN(bL) || isNaN(pL)) {
+    resultDiv.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Please enter both values above.</span>';
+    return;
+  }
+  if (pL === 0) {
+    resultDiv.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Parallax angle cannot be zero.</span>';
+    return;
+  }
+  const pL_rad = pL * Math.PI / 180;
+  const d = bL / Math.tan(pL_rad);
+  if (d < 20 || d > 500) {
+    resultDiv.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Error: The calculated distance (' + d.toFixed(2) + ' ft) is outside the expected range (20–500 ft). Please check your numbers above.</span>';
+    return;
+  }
+  resultDiv.innerHTML = `d = <b>${d.toFixed(2)}</b> ft`;
+}
+function computeRightDistance() {
+  const bR = parseFloat(document.getElementById('baseline-right').value);
+  const pR = parseFloat(document.getElementById('parallax-right').value);
+  const resultDiv = document.getElementById('right-distance-result');
+  if (isNaN(bR) || isNaN(pR)) {
+    resultDiv.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Please enter both values above.</span>';
+    return;
+  }
+  if (pR === 0) {
+    resultDiv.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Parallax angle cannot be zero.</span>';
+    return;
+  }
+  const pR_rad = pR * Math.PI / 180;
+  const d = bR / Math.tan(pR_rad);
+  if (d < 20 || d > 500) {
+    resultDiv.innerHTML = '<span style="color:#b71c1c; font-weight:600;">Error: The calculated distance (' + d.toFixed(2) + ' ft) is outside the expected range (20–500 ft). Please check your numbers above.</span>';
+    return;
+  }
+  resultDiv.innerHTML = `d = <b>${d.toFixed(2)}</b> ft`;
+}
+</script>
 </body></html>
