@@ -113,7 +113,7 @@ Now, click the button below to make a version of your image with lines every deg
   <button class="modern-btn" onclick="zoomImage(-1)">-</button>
   <span style="font-weight:600; color:#1976d2; margin:0 10px;">Zoom</span>
   <button class="modern-btn" onclick="zoomImage(1)">+</button>
-  <button class="modern-btn" onclick="downloadAnnotatedImage()" style="margin-left:18px;">Download annotated PNG</button>
+  <button class="modern-btn" onclick="downloadAnnotatedImage()" style="margin-left:18px;">Download annotated JPG</button>
 </p>
 
 <h2 class="unnumbered" id="the-location-of-our-star-from-different-positions">Computing your Parallax Angles</h2>
@@ -149,7 +149,7 @@ Repeat that process for the cones in the Left and Right photos.<br><br>
 <p style="color:#0d2357; font-weight:600; margin-top:18px;">Important:<br> 
     1. Write down your two parallax angles (p<sub>L</sub> and p<sub>R</sub>) before proceeding to the next step. 
     You will need them for later calculations!<br>
-    2. Download your annotated image You will upload it in the next step.
+    2. Download your annotated image using the button above. You will upload it in the next step.
 </p>
 
 <script>
@@ -315,16 +315,38 @@ function downloadAnnotatedImage() {
   // Create a full-res offscreen canvas
   const margin = 32;
   const marginTopBottom = 16;
-  const canvas = document.createElement('canvas');
+  let scale = 1;
+  let canvas = document.createElement('canvas');
+  let ctx = canvas.getContext('2d');
   canvas.width = img.naturalWidth + 2 * margin;
   canvas.height = img.naturalHeight + 2 * marginTopBottom;
-  const ctx = canvas.getContext('2d');
   // Draw annotation at full scale
   drawLinesOnImage(img, fov, canvas, ctx, 1, true);
+
+  // Try to get JPEG under 5MB, scale down if needed
+  let jpegDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+  let byteString = atob(jpegDataUrl.split(',')[1]);
+  let byteLength = byteString.length;
+  const maxBytes = 5 * 1024 * 1024; // 5MB
+  while (byteLength > maxBytes && scale > 0.2) {
+    scale *= 0.8; // Reduce by 20% each time
+    const newW = Math.round((img.naturalWidth + 2 * margin) * scale);
+    const newH = Math.round((img.naturalHeight + 2 * marginTopBottom) * scale);
+    canvas.width = newW;
+    canvas.height = newH;
+    ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, newW, newH);
+    // Draw scaled image and lines
+    drawLinesOnImage(img, fov, canvas, ctx, scale, true);
+    jpegDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+    byteString = atob(jpegDataUrl.split(',')[1]);
+    byteLength = byteString.length;
+  }
   // Download
   const link = document.createElement('a');
-  link.href = canvas.toDataURL('image/png');
-  link.download = 'annotated_parallax_fullres.png';
+  link.href = jpegDataUrl;
+  link.download = 'annotated_parallax.jpg';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
