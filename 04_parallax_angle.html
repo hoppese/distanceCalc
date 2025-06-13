@@ -98,7 +98,7 @@ Note that if your image is not a JPG or PNG you'll need to convert at this link:
 <p> Next, we wish to add lines every 5 degrees to this image. To do this, we need to
 know the horizontal field of view (FOV) of your camera. You calculated this and wrote it down earlier.<br>
 <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">Enter your FOV value θ here:
-    <input type="text" id="fov-input" name="distance_d" placeholder="θ" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" />
+    <input type="text" id="fov-input" name="distance_d" placeholder="degrees" style="width: 120px; margin-left: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" />
   </span> 
 </p>
 
@@ -113,6 +113,7 @@ Now, click the button below to make a version of your image with lines every deg
   <button class="modern-btn" onclick="zoomImage(-1)">-</button>
   <span style="font-weight:600; color:#1976d2; margin:0 10px;">Zoom</span>
   <button class="modern-btn" onclick="zoomImage(1)">+</button>
+  <button class="modern-btn" onclick="downloadAnnotatedImage()" style="margin-left:18px;">Download annotated PNG</button>
 </p>
 
 <h2 class="unnumbered" id="the-location-of-our-star-from-different-positions">Computing your Parallax Angles</h2>
@@ -124,7 +125,7 @@ postion of the cone in the 'Middle photo'?
 
 <p>
   <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">
-    <label style="margin-left: 10px;">Enter the Middle angle here: <input type="text" id="angle-middle" name="angle_middle" placeholder="Middle" style="width: 80px; margin-left: 4px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
+    <label style="margin-left: 10px;">Enter the Middle angle here: <input type="text" id="angle-middle" name="angle_middle" placeholder="degrees" style="width: 80px; margin-left: 4px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
   </span>
 </p>
 
@@ -132,10 +133,10 @@ Repeat that process for the cones in the Left and Right photos.<br><br>
 
 <div style="display: flex; gap: 32px;">
   <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">
-    <label style="margin-left: 10px;">Enter the Left angle here: <input type="text" id="angle-left" name="angle_left" placeholder="Left" style="width: 80px; margin-left: 4px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
+    <label style="margin-left: 10px;">Enter the Left angle here: <input type="text" id="angle-left" name="angle_left" placeholder="degrees" style="width: 80px; margin-left: 4px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
   </span>
   <span style="font-weight: 500; background: #e8f5e9; border-radius: 6px; padding: 6px 10px; display: inline-block; margin-top: 8px;">
-    <label style="margin-left: 10px;">Enter the Right angle here: <input type="text" id="angle-right" name="angle_right" placeholder="Right" style="width: 80px; margin-left: 4px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
+    <label style="margin-left: 10px;">Enter the Right angle here: <input type="text" id="angle-right" name="angle_right" placeholder="degrees" style="width: 80px; margin-left: 4px; margin-right: 10px; margin-top: 0; margin-bottom: 0; text-align: center;" /></label>
   </span>
 </div>
 
@@ -145,7 +146,11 @@ Repeat that process for the cones in the Left and Right photos.<br><br>
 <div id="parallax-result" style="margin-left: 0; font-weight: 600; color: #c62828; margin-top: 10px; min-height: 2.5em;"></div>
 
 <p> You're finally ready to proceed and compute the distance to your 'star'.</p>
-<p style="color:#0d2357; font-weight:600; margin-top:18px;">Important: Write down your two parallax angles (p<sub>L</sub> and p<sub>R</sub>) before proceeding to the next step. You will need them for later calculations!</p>
+<p style="color:#0d2357; font-weight:600; margin-top:18px;">Important:<br> 
+    1. Write down your two parallax angles (p<sub>L</sub> and p<sub>R</sub>) before proceeding to the next step. 
+    You will need them for later calculations!<br>
+    2. Download your annotated image You will upload it in the next step.
+</p>
 
 <script>
 document.getElementById('student-photo-upload').addEventListener('change', function(event) {
@@ -232,26 +237,23 @@ function drawLinesBtnHandler() {
   }
 }
 
-function drawLinesOnImage(img, fov, canvas, ctx, zoom = 1) {
-  // Scale image to 1/5 size, then apply zoom
-  const baseScale = 0.20;
+function drawLinesOnImage(img, fov, canvas, ctx, zoom = 1, skipRedraw = false) {
+  // If skipRedraw is true, do not update the page, just draw on the given canvas
+  const baseScale = skipRedraw ? 1 : 0.20;
   const scale = baseScale * zoom;
-  const margin = 32; // Add 32px margin on left and right
-  const marginTopBottom = 16; // Add 16px margin on top and bottom
+  const margin = 32;
+  const marginTopBottom = 16;
   canvas.width = Math.round(img.naturalWidth * scale) + 2 * margin;
   canvas.height = Math.round(img.naturalHeight * scale) + 2 * marginTopBottom;
-  // Fill background with white for margin
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // Draw image with margin offset
   ctx.drawImage(img, margin, marginTopBottom, Math.round(img.naturalWidth * scale), Math.round(img.naturalHeight * scale));
   const num5deg = Math.floor(fov / 5);
   const num1deg = Math.floor(fov);
-  const spacing5 = (canvas.width - 2 * margin) / fov * 5; // pixels per 5 degrees
-  const spacing1 = (canvas.width - 2 * margin) / fov; // pixels per 1 degree
-  // Draw thin 1° lines
+  const spacing5 = (canvas.width - 2 * margin) / fov * 5;
+  const spacing1 = (canvas.width - 2 * margin) / fov;
   ctx.strokeStyle = '#cc2222';
-  ctx.lineWidth = 0.7;
+  ctx.lineWidth = 0.7 * (skipRedraw ? 5 : 1); // Thicker lines for full-res
   for (let i = 0; i <= num1deg; i++) {
     const x = margin + i * spacing1;
     ctx.beginPath();
@@ -259,9 +261,8 @@ function drawLinesOnImage(img, fov, canvas, ctx, zoom = 1) {
     ctx.lineTo(x, canvas.height - marginTopBottom);
     ctx.stroke();
   }
-  // Draw thick 5° lines and labels
   ctx.strokeStyle = 'red';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 2 * (skipRedraw ? 2.5 : 1); // Thicker lines for full-res
   for (let i = 0; i <= num5deg; i++) {
     const x = margin + i * spacing5;
     ctx.beginPath();
@@ -269,13 +270,14 @@ function drawLinesOnImage(img, fov, canvas, ctx, zoom = 1) {
     ctx.lineTo(x, canvas.height - marginTopBottom);
     ctx.stroke();
     ctx.fillStyle = 'red';
-    ctx.font = '16px Arial';
-    // Place label at vertical center (midline)
+    ctx.font = skipRedraw ? '48px Arial' : '16px Arial';
     ctx.fillText(`${i * 5}\u00B0`, x + 2, canvas.height / 2);
   }
-  const imageWithLinesDiv = document.getElementById('image-with-lines');
-  imageWithLinesDiv.innerHTML = '';
-  imageWithLinesDiv.appendChild(canvas);
+  if (!skipRedraw) {
+    const imageWithLinesDiv = document.getElementById('image-with-lines');
+    imageWithLinesDiv.innerHTML = '';
+    imageWithLinesDiv.appendChild(canvas);
+  }
 }
 
 function computeParallaxAngles() {
@@ -296,6 +298,36 @@ function computeParallaxAngles() {
   const pR = (middle - right).toFixed(2);
   // Styled output to match b_L and b_R in 03_observations.html
   resultSpan.innerHTML = `<span style="font-size:1.1em; color:#1976d2; font-weight:600;">p<sub>R</sub> = ${pR}°,&nbsp; p<sub>L</sub> = ${pL}°</span>`;
+}
+
+function downloadAnnotatedImage() {
+  const img = document.getElementById('uploaded-img');
+  const fovInput = document.getElementById('fov-input').value;
+  if (!img || !fovInput) {
+    alert('Please create the annotated image first.');
+    return;
+  }
+  const fov = parseFloat(fovInput);
+  if (isNaN(fov) || fov <= 0) {
+    alert('Please enter a valid FOV (θ) value.');
+    return;
+  }
+  // Create a full-res offscreen canvas
+  const margin = 32;
+  const marginTopBottom = 16;
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth + 2 * margin;
+  canvas.height = img.naturalHeight + 2 * marginTopBottom;
+  const ctx = canvas.getContext('2d');
+  // Draw annotation at full scale
+  drawLinesOnImage(img, fov, canvas, ctx, 1, true);
+  // Download
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = 'annotated_parallax_fullres.png';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 </script>
 </body></html>
